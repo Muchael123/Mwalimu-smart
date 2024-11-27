@@ -12,7 +12,7 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof Ionicons>['name'];
   color: string;
 }) {
-  return <Ionicons size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons style={{bottom: '-50%'}} size={28}  {...props} />;
 }
 
 export default function TabLayout() {
@@ -29,15 +29,18 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
       tabBarShowLabel: false,
+     
       tabBarStyle: {
         position: "absolute",
         bottom: 8,
         backgroundColor: "#121416",
         borderRadius: 65,
-        marginHorizontal: 20,
+        flexDirection: "row",
+        height: 65,
+        marginHorizontal: 50,
+
       },
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
+      
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen
@@ -59,7 +62,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'History',
+          title: 'Settings',
           tabBarIcon: ({ color }) => <TabBarIcon name="settings" color={color} />,
         }}
       />

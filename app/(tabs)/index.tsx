@@ -14,13 +14,14 @@ import { StatusBar } from "expo-status-bar";
 import Colors from "@/constants/Colors";
 import SearchBar from "@/components/index/SearchBar";
 import { useEffect } from "react";
+import Fields from "@/components/index/Fields";
 
 
 export default function TabOneScreen() {
   const fadeAnim = useAnimatedValue(0);
-  const fromtTop = useAnimatedValue(-100);
+  const fromTop = useAnimatedValue(-100);
   const Top = () => {
-    Animated.timing(fromtTop, {
+    Animated.timing(fromTop, {
       toValue: 0,
       duration: 1000,
       useNativeDriver: true,
@@ -42,7 +43,7 @@ export default function TabOneScreen() {
       <View style={styles.container}>
         <StatusBar style="auto" />
         <Animated.View style={[styles.headCard, 
-          { opacity: fadeAnim, transform: [{translateY: fromtTop}]
+          { opacity: fadeAnim, transform: [{translateY: fromTop}]
           }
         ]}>
           <View style={styles.greetView}>
@@ -57,6 +58,7 @@ export default function TabOneScreen() {
           </View>
           <SearchBar />
         </Animated.View>
+        <Fields />
       </View>
   );
 }
@@ -67,6 +69,8 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? 30 : 0,
     paddingHorizontal: 20,
     width: Dimensions.get("window").width,
+    flexDirection: 'column',
+    gap: 20,
   },
   headCard: {
     backgroundColor: Colors.yellow,
