@@ -4,7 +4,7 @@ import { Pressable } from "react-native";
 export default function Icon(props: {
     name: React.ComponentProps<typeof Ionicons>['name'];
     color: string;
-    onPress: () => void;
+    onPress?: () => void;
   }) {
     return (
         <Pressable>

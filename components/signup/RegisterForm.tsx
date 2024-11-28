@@ -6,6 +6,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Icon from '../Icon';
 import { useSignUp } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
+import FormLinks from './FormLinks';
+import Oauth from './Oauth';
 
 interface RegisterFormProps {
   scrollToNext: (index: number) => void;
@@ -82,11 +84,11 @@ export default function RegisterForm({scrollToNext, pendingVerification, setPend
         await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
         console.log('Email Verification Sent');
         setPendingVerification(true);
-        scrollToNext(2);
+        scrollToNext(1);
         {setpage && setpage(2)}  
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
+        // setEmail('');
+        // setPassword('');
+        // setConfirmPassword('');
       } catch (error) {
         console.log(error);
       } 
@@ -150,11 +152,14 @@ export default function RegisterForm({scrollToNext, pendingVerification, setPend
             </View>
             </View>
       </View>
-      <TouchableOpacity style={styles.Next} onPress={handleNext}>
+      <FormLinks />
+      <TouchableOpacity
+       style={styles.Next} onPress={handleNext}>
         {
           loading ? <Ionicons name="reload" size={24} color={Colors.yellow} />:<Text style={styles.text}>Next</Text>
         }
       </TouchableOpacity>
+      <Oauth />
     </KeyboardAvoidingView>
   )
 }
@@ -174,19 +179,20 @@ const styles = StyleSheet.create({
     },
     label: {
         color: Colors.authCol,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         marginTop: 20
     },
     inputView: {
         backgroundColor: Colors.inputField,
         borderRadius: 10,
-        padding: 10,
-        marginTop: 10,
+        padding: 8,
+        marginTop: 12,
         flexDirection: 'row',
         justifyContent: 'space-between',
         gap: 10,
-        alignItems: 'center'
+        alignItems: 'center',
+      
     },
     authForm: {
       marginTop: 24,
@@ -198,13 +204,13 @@ const styles = StyleSheet.create({
       borderWidth: StyleSheet.hairlineWidth,
     },
     Next: {
-      backgroundColor: Colors.Subjectborder,
       padding: 20,
       borderRadius: 20,
       alignItems: 'center',
-      marginTop: 25,
+      marginTop:10,
       flexDirection: 'row',
       gap: 10,
-      justifyContent: 'center'
+      justifyContent: 'center',
+      backgroundColor: Colors.Subjectborder
     }
 })

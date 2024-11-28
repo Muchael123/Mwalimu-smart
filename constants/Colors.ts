@@ -4,6 +4,7 @@ const tintColorDark = '#fedc31';
 export default {
   yellow: '#FEDC31',
   black: '#000',
+  btnText: '#0a0800',
   search: '#ccd0cf',
   SubjectCard: '#11212d',
   Subjectborder: '#fedc31',

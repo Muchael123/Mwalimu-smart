@@ -3,15 +3,19 @@ import React, { useRef, useState } from 'react';
 import Colors from '@/constants/Colors';
 import Dimensions from '@/constants/Dimensions';
 import RegisterForm from '@/components/signup/RegisterForm';
+import VerifyOtp from '@/components/signup/VerifyOtp';
 
 export default function Index() {
   const scrollRef = useRef<ScrollView>(null);
   const scrollToNext = (index: number) => {
+    console.log('scrolling to', index, (index* Dimensions.scroll.width));
+    const gap = 15;
     scrollRef.current?.scrollTo({
-      x: Dimensions.scroll.width * index+15,
-      animated: true,
+        x: (index* Dimensions.scroll.width) + gap,
+        animated: true,
     });
-  };
+};
+;
   const [page, setPage] = useState<number>(1);
   const [pendingVerification, setPendingVerification] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
@@ -48,9 +52,7 @@ export default function Index() {
             />
         </View>
         <View style={styles.page}>
-        <Pressable onPress={() => scrollToNext(2)}>
-          <Text style={styles.text}>Page 2</Text>
-          </Pressable>
+        <VerifyOtp scrollToNext={scrollToNext} />
         </View>
         <View style={styles.page}>
         <Pressable onPress={() => scrollToNext(-1)}>
