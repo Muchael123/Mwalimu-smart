@@ -6,6 +6,9 @@ export default {
   black: '#000',
   search: '#ccd0cf',
   SubjectCard: '#11212d',
+  Subjectborder: '#fedc31',
+  authCol: '#d3d3d3',
+  inputField: '#332B00',
   'dark-gray': '#cc7722',
   'light': {
     text: '#000',

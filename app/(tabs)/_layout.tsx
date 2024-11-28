@@ -1,11 +1,12 @@
 import React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { StatusBar, StyleSheet, useAnimatedValue, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import tokenCache from '@/hooks/Tokencache';
 
 
 function TabBarIcon(props: {
@@ -17,8 +18,10 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
- 
-
+  const getToken = tokenCache.getToken('userToken');
+  if (!getToken) {
+    return <Redirect href={'/(auth)'} />;
+  }
   return (
     <SafeAreaProvider>
     <SafeAreaView style={styles.container}>

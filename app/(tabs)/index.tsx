@@ -15,9 +15,18 @@ import Colors from "@/constants/Colors";
 import SearchBar from "@/components/index/SearchBar";
 import { useEffect } from "react";
 import Fields from "@/components/index/Fields";
+import { useUser } from "@clerk/clerk-expo";
+import { Redirect } from "expo-router";
 
 
 export default function TabOneScreen() {
+  const {user} = useUser();
+  console.log(user);
+  if (!user) {
+    return <Redirect href={'/(auth)'} />;
+  }
+
+
   const fadeAnim = useAnimatedValue(0);
   const fromTop = useAnimatedValue(-100);
   const Top = () => {
