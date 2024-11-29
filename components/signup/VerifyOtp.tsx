@@ -6,9 +6,11 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Dimensions from '@/constants/Dimensions';
 interface VerifyOtpProps {
-  scrollToNext: (index: number) => void;
+    setnextPage: () => void;
+    setprevPage: () => void;
+  email: string;
 }
-export default function VerifyOtp({scrollToNext}: VerifyOtpProps) {
+export default function VerifyOtp({setnextPage, setprevPage, email}: VerifyOtpProps) {
     const [code, setCode] = useState(['', '', '', '', '', '']); 
     const inputsRef = useRef<TextInput[]>([]);
     const router = useRouter();
@@ -24,15 +26,15 @@ export default function VerifyOtp({scrollToNext}: VerifyOtpProps) {
             const completeSignUp = await signUp.attemptEmailAddressVerification({
                 code: code.join(''),
             });
+            console.log('completeSignUp...', completeSignUp);
 
             if (completeSignUp.status === 'complete') {
                 await setActive({ session: completeSignUp.createdSessionId });
-                router.replace('/(tabs)/index');
+                setnextPage();
             } else {
-                console.error( 'respones',JSON.stringify(completeSignUp, null, 2));
+                console.error( 'responses',JSON.stringify(completeSignUp, null, 2));
             }
         } catch (err: any) {
-            
             const error = err.errors[0]
             console.log('error', error);
             alert(error?.longMessage);
@@ -49,14 +51,16 @@ export default function VerifyOtp({scrollToNext}: VerifyOtpProps) {
         if (text && index < inputsRef.current.length - 1) {
             inputsRef.current[index + 1]?.focus(); 
         }
-        // if(code.some((digit) => digit !== '')) {
-        //     onPressVerify();
-        // }
+        if(code.every((digit) => digit !== '')) {
+            onPressVerify();
+        }
+        
     };
 
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Account Verification</Text>
+            <Text style={styles.emailTxt}>We sent an email with Verification code to {email}. Enter the code below</Text>
             <View style={styles.inputContainer}>
                 {code.map((digit, index) => (
                     <TextInput
@@ -64,6 +68,7 @@ export default function VerifyOtp({scrollToNext}: VerifyOtpProps) {
                         style={styles.otpInput}
                         maxLength={1}
                         keyboardType="numeric"
+                        cursorColor={Colors.Subjectborder}
                         returnKeyType={ index === code.length - 1 ? 'done' : 'next'}
                         onChangeText={(text) => handleInputChange(text, index)}
                         ref={(ref) => (inputsRef.current[index] = ref!)} 
@@ -72,7 +77,7 @@ export default function VerifyOtp({scrollToNext}: VerifyOtpProps) {
                 ))}
             </View>
            <View style={styles.btnView}>
-            <TouchableOpacity style={styles.backBtn} onPress={()=> scrollToNext(-1)}>
+            <TouchableOpacity style={styles.backBtn} onPress={()=> setprevPage()}>
                 <Text  style={styles.backBtnText}>Back</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
         color: Colors['dark-gray'],
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
+        
     },
     inputContainer: {
         flexDirection: 'row',
@@ -131,9 +136,8 @@ const styles = StyleSheet.create({
       btn : {
         padding: 20,
         backgroundColor: Colors.yellow,
-        marginTop: 28,
-        borderRadius: 20,
-        width: Dimensions.scroll.width - 60,
+        borderRadius: 10,
+        flex:1,
         justifyContent: 'center',
         alignItems: 'center',
       },
@@ -141,21 +145,30 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         flexDirection: 'row',
-        gap:8
+        gap:20,
+        justifyContent: 'space-between',
+        marginTop:  50,
       },
       backBtn: {
         padding: 20,
-        borderRadius: 20,
+        borderRadius: 10,
         alignItems: 'center',
-        marginTop:10,
         flexDirection: 'row',
-        gap: 10,
         justifyContent: 'center',
         borderColor: Colors['dark-gray'],
+        borderWidth: 1,
       },
         backBtnText: {
             color: Colors['dark-gray'],
             fontWeight: 'bold',
             fontSize: 20,
         },
+        emailTxt: {
+            color: '#939393',
+            fontSize: 16,
+            fontWeight: 'semibold',
+            marginTop: 10,
+            marginBottom: 20,
+            textAlign: 'center',
+        }
 });

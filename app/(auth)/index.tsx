@@ -7,56 +7,67 @@ import VerifyOtp from '@/components/signup/VerifyOtp';
 
 export default function Index() {
   const scrollRef = useRef<ScrollView>(null);
-  const scrollToNext = (index: number) => {
-    console.log('scrolling to', index, (index* Dimensions.scroll.width));
-    const gap = 15;
-    scrollRef.current?.scrollTo({
-        x: (index* Dimensions.scroll.width) + gap,
-        animated: true,
-    });
-};
-;
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(0);
   const [pendingVerification, setPendingVerification] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
+
+  const scrollToPage = (index: number) => {
+    console.log('scrolling to', index, index * Dimensions.scroll.width);
+    const gap = 15;
+    scrollRef.current?.scrollTo({
+      x: index * Dimensions.scroll.width + (index > 0 ? gap : 0),
+      animated: true,
+    });
+  };
+
+  const handlePageNext = () => {
+    setPage((prevIndex) => {
+      const nextIndex = prevIndex + 1;
+      scrollToPage(nextIndex);
+      return nextIndex;
+    });
+  };
+
+  const handlePageBack = () => {
+    setPage((prevIndex) => {
+      const prevPageIndex = prevIndex - 1;
+      scrollToPage(prevPageIndex);
+      return prevPageIndex;
+    });
+  };
+
   const handlePending = (msg: boolean) => {
     setPendingVerification(msg);
-  }
-  const handlepageChange = (index: number) => {
-    setPage(index);
-  }
-
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>step {page} out of 3</Text>
+        <Text style={styles.headerText}>Step {page + 1} out of 3</Text>
       </View>
 
       <ScrollView
         ref={scrollRef}
         scrollEnabled={false}
-        horizontal={true} 
-        showsHorizontalScrollIndicator={true} 
-        contentContainerStyle={styles.signupScroll} 
+        horizontal
+        showsHorizontalScrollIndicator
+        contentContainerStyle={styles.signupScroll}
       >
-        <View  style={styles.page}>
-          <RegisterForm 
-          pendingVerification={pendingVerification}
+        <View style={styles.page}>
+          <RegisterForm
+            pendingVerification={pendingVerification}
             setPendingVerification={handlePending}
-           scrollToNext={scrollToNext}
-           email={email}
-              setEmail={setEmail}
-                setpage={handlepageChange}
-              
-            />
+            setnextPage={handlePageNext}
+            email={email}
+            setEmail={setEmail}
+          />
         </View>
         <View style={styles.page}>
-        <VerifyOtp scrollToNext={scrollToNext} />
+          <VerifyOtp email={email} setnextPage={handlePageNext} setprevPage={handlePageBack} />
         </View>
         <View style={styles.page}>
-        <Pressable onPress={() => scrollToNext(-1)}>
-          <Text style={styles.text}>Page 3</Text>
+          <Pressable onPress={handlePageBack}>
+            <Text style={styles.text}>Page 3</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -68,7 +79,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: Colors.SubjectCard
+    backgroundColor: Colors.SubjectCard,
   },
   header: {
     padding: 20,
@@ -78,11 +89,11 @@ const styles = StyleSheet.create({
   headerText: {
     color: '#939393',
     fontSize: 20,
-    fontWeight: 'semibold',
-    letterSpacing: 2, 
+    fontWeight: '600',
+    letterSpacing: 2,
   },
   signupScroll: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     alignItems: 'center',
   },
   page: {
@@ -100,7 +111,7 @@ const styles = StyleSheet.create({
   headersub: {
     color: '#dedede',
     fontSize: 16,
-    fontWeight: 'light',
+    fontWeight: '300',
     marginTop: 10,
-  }
+  },
 });

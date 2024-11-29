@@ -1,6 +1,7 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Fontisto from '@expo/vector-icons/Fontisto';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Colors from '@/constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Icon from '../Icon';
@@ -8,9 +9,10 @@ import { useSignUp } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import FormLinks from './FormLinks';
 import Oauth from './Oauth';
+import Terms from './Terms';
 
 interface RegisterFormProps {
-  scrollToNext: (index: number) => void;
+  setnextPage: () => void;
   pendingVerification: boolean;
   setPendingVerification: (pend: boolean) => void;
   email: string;
@@ -18,14 +20,15 @@ interface RegisterFormProps {
   setpage? : (page: number) => void;
 }
 
-export default function RegisterForm({scrollToNext, pendingVerification, setPendingVerification, email, setEmail, setpage}: RegisterFormProps) {
+export default function RegisterForm({setnextPage, pendingVerification, setPendingVerification, email, setEmail, setpage}: RegisterFormProps) {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [pasmismatch, setPasmismatch] = useState<boolean>(false);
   const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
   const [consecure, setConsecure] = useState<boolean>(true);
-  const { isLoaded, signUp, setActive } = useSignUp();
+  const { isLoaded, signUp } = useSignUp();
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   const router = useRouter();
   
@@ -53,20 +56,22 @@ export default function RegisterForm({scrollToNext, pendingVerification, setPend
       setLoading(true);
        try{
         if(!verifyEmail()) {
-          alert('Please enter a valid email');
+          setError('Please enter a valid email');
           return;
         }
-        if(password.length < 6) {
-          alert('Password must be at least 6 characters');
+        if(password.length < 8) {
+          setError('Password must be at least 8 characters');
           return;
         }
         if(Checkpassmismatch()) {
-          alert('Passwords do not match');
+          setError('Passwords do not match');
           return;
         }
+        setError('');
         ClerkVerify();
        } catch (error) {
-          console.log(error);
+          console.log("error...",error);
+         
        }finally {
           setLoading(false);
        }
@@ -84,21 +89,38 @@ export default function RegisterForm({scrollToNext, pendingVerification, setPend
         await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
         console.log('Email Verification Sent');
         setPendingVerification(true);
-        scrollToNext(1);
+        setnextPage();
         {setpage && setpage(2)}  
         // setEmail('');
         // setPassword('');
         // setConfirmPassword('');
-      } catch (error) {
-        console.log(error);
-      } 
+      } catch (error: any) {
+        let errorMessage = "An unexpected error occurred.";
+
+        if (Array.isArray(error)) {
+            errorMessage = error[0]?.Error || errorMessage;
+        } else if (typeof error === "object" && error?.message) {
+            errorMessage = error.message;
+        } else if (typeof error === "string") {
+            errorMessage = error;
+        }
+
+        setError(errorMessage);
+    }
     }
 
 
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Text style={styles.text}>Your Account</Text>
-
+      {
+        error ? (
+          <View style={styles.errorView}>
+            <MaterialIcons name="error-outline" size={24} color="white" />
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        ) : null
+      }
       <View style={styles.authForm}>
       <View >
         <Text style={styles.label}>Email</Text>
@@ -109,6 +131,7 @@ export default function RegisterForm({scrollToNext, pendingVerification, setPend
          placeholderTextColor={Colors.authCol}
          keyboardType='email-address'
          style={{color: Colors.yellow, flex: 1}}
+         autoCapitalize='none'
          value={email}
          onChangeText={setEmail}
          cursorColor={Colors.yellow}
@@ -134,6 +157,7 @@ export default function RegisterForm({scrollToNext, pendingVerification, setPend
             <Icon name={secureTextEntry? "eye" : "eye-off"} color={Colors.authCol} onPress={() => setSecureTextEntry(prev => !prev)} />
             </View>
             </View>
+            
             <View >
           <Text style={styles.label}>Confirm Password</Text>
           <View style={styles.inputView}>
@@ -152,6 +176,7 @@ export default function RegisterForm({scrollToNext, pendingVerification, setPend
             </View>
             </View>
       </View>
+      <Terms/>
       <FormLinks />
       <TouchableOpacity
        style={styles.Next} onPress={handleNext}>
@@ -160,6 +185,7 @@ export default function RegisterForm({scrollToNext, pendingVerification, setPend
         }
       </TouchableOpacity>
       <Oauth />
+     
     </KeyboardAvoidingView>
   )
 }
@@ -181,13 +207,12 @@ const styles = StyleSheet.create({
         color: Colors.authCol,
         fontSize: 14,
         fontWeight: 'bold',
-        marginTop: 20
     },
     inputView: {
         backgroundColor: Colors.inputField,
         borderRadius: 10,
-        padding: 8,
-        marginTop: 12,
+        padding: 10,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         gap: 10,
@@ -212,5 +237,22 @@ const styles = StyleSheet.create({
       gap: 10,
       justifyContent: 'center',
       backgroundColor: Colors.Subjectborder
-    }
+    },
+    errorView: {
+      backgroundColor: 'red',
+        borderRadius: 10,
+        padding: 8,
+        marginTop: 12,
+        flexDirection: 'row',
+        gap: 10,
+        alignItems: 'center',
+
+    },
+    errorText: {
+      color: 'white',
+      fontSize: 14,
+      fontWeight: 'semibold',
+      maxWidth: '80%',
+    },
+   
 })

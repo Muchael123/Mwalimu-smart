@@ -25,6 +25,8 @@ export default function TabOneScreen() {
   if (!user) {
     return <Redirect href={'/(auth)'} />;
   }
+  console.log('user', user);
+  console.log('user', user.firstName, user.imageUrl);
 
 
   const fadeAnim = useAnimatedValue(0);
@@ -58,10 +60,10 @@ export default function TabOneScreen() {
           <View style={styles.greetView}>
             <Image
               style={styles.cardimg}
-              source={{ uri: "https://michael-maina.me/maich.jpg" }}
+              source={{ uri: user.imageUrl }}
             />
             <View>
-              <Text style={styles.greetTxt}>Hello Michael123,</Text>
+              <Text style={styles.greetTxt}>Hello {user.firstName},</Text>
               <Text style={styles.greetTxt2}>Nice to See You</Text>
             </View>
           </View>
