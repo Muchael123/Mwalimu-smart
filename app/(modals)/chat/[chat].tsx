@@ -5,17 +5,16 @@ import Colors from '@/constants/Colors';
 import { ChatHistory, initialHistory } from '@/constants/Types';
 import AskGemini from '@/lib/AskGemini';
 
-export default function App() {
+export default function ChatScreen() {
     const [history, setHistory] = useState<ChatHistory>(initialHistory);
     const navigation = useNavigation();
-    const { quiz } = useLocalSearchParams();
+    const { Chat } = useLocalSearchParams();
 
-    // Extracting the question from `quiz`
-    const question = typeof quiz === 'string' ? quiz : quiz?.[0];
+    const question = typeof Chat === 'string' ? Chat : Chat?.[0];
 
     useEffect(() => {
         navigation.setOptions({
-            title: question || 'Quiz',
+            title: question || 'Chat',
         });
 
         // Add the user's input to history
@@ -37,25 +36,13 @@ export default function App() {
         if (!question) return;
         const response = await AskGemini(question, initialHistory, 'maths');
         console.log("res from gemini",response);
-
-        // setHistory((prevHistory) => [
-        //     ...prevHistory,
-        //     {
-        //         role: 'bot',
-        //         parts: [
-        //             {
-        //                 text: response,
-        //             },
-        //         ],
-        //     },
-        // ]);
     };
 
     useEffect(() => {
         fetchAnswer();
     }, [question]);
 
-    console.log(quiz);
+    console.log(Chat);
 
     return (
         <View style={styles.container}>

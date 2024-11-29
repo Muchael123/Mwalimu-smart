@@ -6,10 +6,10 @@ import Colors from '@/constants/Colors'
 export default function FormLinks() {
   return (
     <View style={styles.container}>
-      <Link href="/(modals)/index" asChild>
+      <Link href="/(auth)/forgot-password" asChild>
         <Text style={styles.link}>Forgot password?</Text>
         </Link>
-        <Link href="/(modals)/index" asChild>
+        <Link href="/(auth)/login" asChild>
         <Text style={styles.link}>Already have an account? Login</Text>
         </Link>
     </View>

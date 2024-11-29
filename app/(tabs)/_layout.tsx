@@ -2,11 +2,9 @@ import React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Redirect, Tabs } from 'expo-router';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { StatusBar, StyleSheet, useAnimatedValue, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import tokenCache from '@/hooks/Tokencache';
+import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useUser } from '@clerk/clerk-expo';
 
 
 function TabBarIcon(props: {
@@ -17,22 +15,20 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const getToken = tokenCache.getToken('userToken');
-  if (!getToken) {
+  const { isSignedIn } = useUser();
+  if(!isSignedIn) {
     return <Redirect href={'/(auth)'} />;
   }
   return (
-    <SafeAreaProvider>
     <SafeAreaView style={styles.container}>
       <StatusBar
         animated={true}
       />
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors.dark.tint,
       tabBarShowLabel: false,
-     
+     tabBarHideOnKeyboard: true,
       tabBarStyle: {
         position: "absolute",
         bottom: 8,
@@ -44,7 +40,7 @@ export default function TabLayout() {
 
       },
       
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: false,
       }}>
       <Tabs.Screen
         name="index"
@@ -80,7 +76,6 @@ export default function TabLayout() {
       
     </Tabs>
     </SafeAreaView>
-    </SafeAreaProvider>
   );
 }
 

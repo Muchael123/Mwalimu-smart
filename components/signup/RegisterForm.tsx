@@ -1,9 +1,8 @@
-import { KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import Fontisto from '@expo/vector-icons/Fontisto';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Colors from '@/constants/Colors';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import Icon from '../Icon';
 import { useSignUp } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
@@ -179,9 +178,10 @@ export default function RegisterForm({setnextPage, pendingVerification, setPendi
       <Terms/>
       <FormLinks />
       <TouchableOpacity
+        disabled={loading}
        style={styles.Next} onPress={handleNext}>
         {
-          loading ? <Ionicons name="reload" size={24} color={Colors.yellow} />:<Text style={styles.text}>Next</Text>
+          loading ? <ActivityIndicator size={20} />:<Text style={styles.text}>Next</Text>
         }
       </TouchableOpacity>
       <Oauth />

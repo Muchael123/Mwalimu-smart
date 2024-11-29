@@ -4,6 +4,7 @@ import {
   DrawerLayoutAndroid, 
   Image, 
   Platform, 
+  ScrollView, 
   StyleSheet, 
   Text, 
   useAnimatedValue, 
@@ -21,12 +22,11 @@ import { Redirect } from "expo-router";
 
 export default function TabOneScreen() {
   const {user} = useUser();
-  console.log(user);
   if (!user) {
     return <Redirect href={'/(auth)'} />;
   }
-  console.log('user', user);
-  console.log('user', user.firstName, user.imageUrl);
+ 
+  // console.log('user', user.firstName, user.imageUrl,"email \n", user.id);
 
 
   const fadeAnim = useAnimatedValue(0);
@@ -51,8 +51,7 @@ export default function TabOneScreen() {
   }, []);
 
   return (
-      <View style={styles.container}>
-        <StatusBar style="auto" />
+      <ScrollView style={styles.container}>
         <Animated.View style={[styles.headCard, 
           { opacity: fadeAnim, transform: [{translateY: fromTop}]
           }
@@ -70,14 +69,13 @@ export default function TabOneScreen() {
           <SearchBar />
         </Animated.View>
         <Fields />
-      </View>
+      </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? 30 : 0,
     paddingHorizontal: 20,
     width: Dimensions.get("window").width,
     flexDirection: 'column',

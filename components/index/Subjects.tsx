@@ -1,5 +1,5 @@
 import { Animated, FlatList, StyleSheet, Text, useAnimatedValue, View, Pressable } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Colors from '@/constants/Colors'
 import { FieldsProps } from './Fields'
 interface SubjectsProps {
@@ -9,13 +9,17 @@ interface SubjectsProps {
 }
 export default function Subjects({ subjects, pressed, selected }: SubjectsProps) {
   const Appear = useAnimatedValue(0);
+  const MyscrollViewRef = useRef<FlatList>(null);
   const fadeIn = () => {
     Animated.timing(Appear, {
       toValue: 1,
-      duration: 500,
+      duration: 1000,
       useNativeDriver: true,
     }).start();
   };
+  const handlescroll = (index: number) => {
+    MyscrollViewRef.current?.scrollToIndex({index: index < 1 ? 0 : index - 1, animated: true})
+  }
   useEffect(() => {
     fadeIn();
   }, []);
@@ -25,9 +29,13 @@ export default function Subjects({ subjects, pressed, selected }: SubjectsProps)
      <FlatList
       data={subjects}
       horizontal={true}
+      ref={MyscrollViewRef}
       showsHorizontalScrollIndicator={false}
       renderItem={({ item, index }) =>
-      <Pressable onPress={()=> pressed(item)}>
+      <Pressable onPress={()=> {
+        pressed(item)
+        handlescroll(index)
+      }}>
         <Animated.View style={[styles.sub, {
           opacity: Appear,
           transitionDelay: `${index * 1000}ms`,

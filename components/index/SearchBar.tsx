@@ -14,8 +14,11 @@ export default function SearchBar() {
   }
   const handleSearch = () => {
     Keyboard.dismiss()
-    router.navigate(`/(modals)/${searchValue}`)
-    console.log('searching')
+    router.push({ 
+      pathname: "/(modals)/chat/[chat]",
+      params: { Chat: searchValue }
+    })
+    console.log('searching', searchValue)
   }
 
   const appearVal = useAnimatedValue(80)
