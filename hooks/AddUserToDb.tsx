@@ -1,28 +1,22 @@
-
-const AddUserToDb = (user: string, id: string) => {
-   const userin = search(user, id);
-   console.log(userin);
-}
-
-const search = async (user: string, id:string) => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users');
-    if(response.status === 404) {
-        AddUser(user, id);
-    }
-    const data = await response.json();
-    console.log(data);
-    return data;
-}
-const AddUser = async (user: string, id:string) => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users', {
+const url = 'https://mwalimu-smart.vercel.app/api/learner'
+export async function AddUserToDB (email: string, id: string ): Promise<string | null> {
+    try {
+        const response = await fetch(url, {
         method: 'POST',
-        body: JSON.stringify({
-            id: id,
-            email: user,
-        }),
-    });
-    const data = await response.json();
-    console.log(data);
-    return data;
-}
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email:email, uid: id}),
+        });
+        const data = response.status;
+        console.log('data', data)
+        if(data === 201){
+            return 'User added to DB'
+        }
+        return 'Failed to add user to DB'
+    } catch (error) {
+        return null;
+        console.error('Error:', error);
+    }
 
+}

@@ -33,7 +33,7 @@ export default function LoginForm() {
     
           if (signInAttempt.status === 'complete') {
             await setActive({ session: signInAttempt.createdSessionId })
-            router.replace('/')
+            router.replace('/(auth)')
           } else {
             console.error(JSON.stringify(signInAttempt, null, 2))
           }
@@ -88,6 +88,7 @@ export default function LoginForm() {
 
             <TouchableOpacity
             disabled={loading}
+            onPress={onSignInPress}
        style={styles.Next} >
         {
           loading ? <ActivityIndicator size={20} />:<Text style={styles.text}>Next</Text>

@@ -1,9 +1,7 @@
 import { 
   Animated,
   Dimensions, 
-  DrawerLayoutAndroid, 
   Image, 
-  Platform, 
   ScrollView, 
   StyleSheet, 
   Text, 
@@ -11,7 +9,6 @@ import {
   View 
 } from "react-native";
 
-import { StatusBar } from "expo-status-bar";
 import Colors from "@/constants/Colors";
 import SearchBar from "@/components/index/SearchBar";
 import { useEffect } from "react";
@@ -22,11 +19,10 @@ import { Redirect } from "expo-router";
 
 export default function TabOneScreen() {
   const {user} = useUser();
+  
   if (!user) {
     return <Redirect href={'/(auth)'} />;
-  }
- 
-  // console.log('user', user.firstName, user.imageUrl,"email \n", user.id);
+  } 
 
 
   const fadeAnim = useAnimatedValue(0);

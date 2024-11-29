@@ -10,6 +10,9 @@ export default {
   Subjectborder: '#fedc31',
   authCol: '#d3d3d3',
   inputField: '#332B00',
+  SubjectSelected: '#d3d3d3',
+  SubjectTextSelected: '#11212d',
+  SubjectText: '#fedc31',
   'dark-gray': '#cc7722',
   'light': {
     text: '#000',

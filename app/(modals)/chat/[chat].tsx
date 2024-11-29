@@ -8,9 +8,9 @@ import AskGemini from '@/lib/AskGemini';
 export default function ChatScreen() {
     const [history, setHistory] = useState<ChatHistory>(initialHistory);
     const navigation = useNavigation();
-    const { Chat } = useLocalSearchParams();
+    const { chat } = useLocalSearchParams();
 
-    const question = typeof Chat === 'string' ? Chat : Chat?.[0];
+    const question = chat as string;
 
     useEffect(() => {
         navigation.setOptions({
@@ -42,7 +42,7 @@ export default function ChatScreen() {
         fetchAnswer();
     }, [question]);
 
-    console.log(Chat);
+    console.log(chat);
 
     return (
         <View style={styles.container}>

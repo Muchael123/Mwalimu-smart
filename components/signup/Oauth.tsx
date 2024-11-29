@@ -27,7 +27,7 @@ export default function Oauth() {
   const onPress = useCallback(async () => {
     try {
       const { createdSessionId, signIn, signUp, setActive } = await startOAuthFlow({
-        redirectUrl: Linking.createURL('/(tabs)', { scheme: 'mwalimu-smart' }),
+        redirectUrl: Linking.createURL('/(auth)', { scheme: 'mwalimu-smart' }),
       })
 
       if (createdSessionId) {

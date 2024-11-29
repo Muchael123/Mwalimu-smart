@@ -1,7 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme,  ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Redirect, Slot, usePathname } from 'expo-router';
+import { Redirect, Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -78,12 +78,8 @@ function RootLayoutNav() {
   if (!publishableKey) {
     throw new Error('Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to your .env file')
   }
-  const { isSignedIn } = useUser();
 
-  const pathname = usePathname();
-  if (pathname && !isSignedIn) {
-    return <Redirect href="/(auth)" />;
-  }
+  
 
 
 

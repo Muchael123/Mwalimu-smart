@@ -16,7 +16,7 @@ export default function SearchBar() {
     Keyboard.dismiss()
     router.push({ 
       pathname: "/(modals)/chat/[chat]",
-      params: { Chat: searchValue }
+      params: { chat: searchValue }
     })
     console.log('searching', searchValue)
   }
