@@ -2,10 +2,10 @@
   "expo": {
     "name": "Mwalimu-Smart",
     "slug": "Mwalimu-Smart",
+    "scheme": "mwalimu-smart",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -20,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.maich123.MwalimuSmart"
     },
     "web": {
       "bundler": "metro",

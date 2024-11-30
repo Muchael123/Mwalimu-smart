@@ -8,7 +8,6 @@ import {
   useAnimatedValue, 
   View 
 } from "react-native";
-
 import Colors from "@/constants/Colors";
 import SearchBar from "@/components/index/SearchBar";
 import { useEffect } from "react";
@@ -47,7 +46,9 @@ export default function TabOneScreen() {
   }, []);
 
   return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+    
+      style={styles.container}>
         <Animated.View style={[styles.headCard, 
           { opacity: fadeAnim, transform: [{translateY: fromTop}]
           }

@@ -1,5 +1,5 @@
-import { Animated, FlatList, StyleSheet, Text, View, Pressable } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import { Animated, FlatList, StyleSheet, Text, View, Pressable, RefreshControl } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import Colors from '@/constants/Colors'
 import { Lesson, LessonResponse } from '@/constants/LessonTypes'
 
@@ -7,11 +7,13 @@ interface SubjectsProps {
   subjects: Lesson[] | null // Corrected the type to match the data structure
   pressed: (val: Lesson) => void
   selected: Lesson | null
+  getlevels: () => void
 }
 
-export default function Subjects({ subjects, pressed, selected }: SubjectsProps) {
+export default function Subjects({ subjects, pressed, selected, getlevels }: SubjectsProps) {
   const Appear = useRef(new Animated.Value(0)).current; // Fixed animated value initialization
   const MyscrollViewRef = useRef<FlatList>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fadeIn = () => {
     Animated.timing(Appear, {
@@ -31,6 +33,17 @@ export default function Subjects({ subjects, pressed, selected }: SubjectsProps)
   useEffect(() => {
     fadeIn();
   }, []);
+  const getmylevels = () => {
+    setLoading(true)
+    try{
+      getlevels()
+
+    }catch (error){
+      console.log(error)
+    }finally{
+      setLoading(false)
+    }
+  }
 
   return (
     <View style={styles.units}>
@@ -38,6 +51,13 @@ export default function Subjects({ subjects, pressed, selected }: SubjectsProps)
         data={subjects || []} // Ensure subjects is not null
         horizontal={true}
         ref={MyscrollViewRef}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={getmylevels}
+            tintColor={Colors.light.tabIconSelected}
+          />
+        }
         showsHorizontalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <Pressable

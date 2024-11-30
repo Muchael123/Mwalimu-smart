@@ -2,10 +2,14 @@ import React from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Redirect, Tabs } from 'expo-router';
 import Colors from '@/constants/Colors';
-import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet} from 'react-native';
+import {  StatusBar, StyleSheet} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '@clerk/clerk-expo';
 
+
+export const unstable_settings = {
+    initialRouteName: "index",
+  };
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Ionicons>['name'];
@@ -32,11 +36,12 @@ export default function TabLayout() {
       tabBarStyle: {
         position: "absolute",
         bottom: 8,
-        backgroundColor: "#121416",
+        backgroundColor: Colors.black,
         borderRadius: 65,
         flexDirection: "row",
         height: 65,
         marginHorizontal: 50,
+        zIndex: 50,
 
       },
       
@@ -45,7 +50,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
           headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         
@@ -67,7 +71,7 @@ export default function TabLayout() {
       />
       
       <Tabs.Screen
-        name="profile"
+        name="(profile)"
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <TabBarIcon name="person-circle-outline" color={color} />,

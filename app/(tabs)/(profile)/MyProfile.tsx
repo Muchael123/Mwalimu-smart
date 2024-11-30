@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function profile() {
+export default function MyProfile() {
   return (
     <View>
-      <Text>profile</Text>
+      <Text>MyProfile</Text>
     </View>
   )
 }

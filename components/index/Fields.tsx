@@ -61,6 +61,7 @@ export default function Fields() {
           pressed={handleSelected}
           selected={selected}
           subjects={levels?.lessons || null}
+          getlevels={getLevels}
         />
       )}
     </View>
