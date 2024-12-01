@@ -37,3 +37,15 @@ export const initialHistory: ChatHistory = [
       clearToken?: (key: string) => void
     }
 
+    export type Subject = {
+      _id: string;
+      name: string;
+      lesson: string;
+      __v: number;
+    };
+    
+    export type SubjectResponse = {
+      type: string;
+      subjects: Subject[];
+    };
+

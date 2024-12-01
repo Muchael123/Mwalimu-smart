@@ -4,6 +4,7 @@ import Subjects from './Subjects'
 import { Lesson, LessonResponse } from '@/constants/LessonTypes'
 import GetLessons from '@/hooks/GetLessons'
 import Colors from '@/constants/Colors'
+import Units from './Units'
 
 export default function Fields() {
   const [levels, setLevels] = useState<LessonResponse | null>(null)
@@ -26,6 +27,7 @@ export default function Fields() {
      
       if (data && data.lessons.length > 0) {
         setLevels(data)
+        setSelected(data.lessons[0])
         setEmpty(false)
       } else {
         setEmpty(true)
@@ -48,7 +50,13 @@ export default function Fields() {
   return (
     <View style={styles.container}>
       {error ? (
-        <Text style={styles.errorText}>{error}</Text>
+        <View>
+          <Text style={styles.errorText}>{error}</Text>
+          <Pressable onPress={getLevels}>
+            <Text style={styles.errorText}>Try again</Text>
+          </Pressable>
+        </View>
+        
       ) : empty ? (
         <View style={styles.Empty}>
           <Text style={styles.emptyText}>No level of education Yet available.</Text>
@@ -57,12 +65,15 @@ export default function Fields() {
           </Pressable>
         </View>
       ) : (
+        <View>
         <Subjects
           pressed={handleSelected}
           selected={selected}
           subjects={levels?.lessons || null}
           getlevels={getLevels}
         />
+        <Units id={selected?._id} />
+        </View>
       )}
     </View>
   )
@@ -73,9 +84,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#000',
+    backgroundColor: 'red',
+    gap: 20,
   },
   text: {
     color: 'white',
