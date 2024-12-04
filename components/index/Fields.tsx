@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'column',
-    backgroundColor: 'red',
+    backgroundColor: Colors.btnText,
     gap: 20,
   },
   text: {

@@ -48,7 +48,7 @@ export default function Subjects({ subjects, pressed, selected, getlevels }: Sub
   return (
     <View style={styles.units}>
       <FlatList
-        data={subjects || []} // Ensure subjects is not null
+        data={subjects} 
         horizontal={true}
         ref={MyscrollViewRef}
         refreshControl={
