@@ -42,13 +42,13 @@ export default function Units({id}: UnitsProps) {
         refreshControl={<RefreshControl refreshing={loading} onRefresh={fetchData} />}
         ListEmptyComponent={<Text style={styles.text}>No subjects found</Text>}
         refreshing={loading}
-        style={{ width: '100%', gap:10 }}
+        style={{ width: '100%', gap:10, padding: 8, borderRadius: 20 }}
         columnWrapperStyle={{ justifyContent: 'space-between', gap: 4 }}
         numColumns={2}
         renderItem={({ item }) => (
           <Pressable
             onPress={() => router.push({
-              pathname: '/(modals)/[id]',
+              pathname: '/(tabs)/(home)/[id]',
               params: {
                 id: item._id,
                 name: item.name

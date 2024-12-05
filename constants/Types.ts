@@ -49,3 +49,29 @@ export const initialHistory: ChatHistory = [
       subjects: Subject[];
     };
 
+    export interface Topic {
+      __v: number;
+      _id: string;
+      description: string;
+      name: string;
+      subject: string;
+    }
+    
+   export interface TopicResponse {
+      topics: Topic[];
+      type: string;
+    }
+export interface SubTopic {
+  _id: string; 
+  name: string; 
+  description: string; 
+  topic: string; 
+  __v: number;
+}
+
+
+export interface SubTopicResponse {
+  type: string; 
+  subTopics: SubTopic[]; 
+}
+

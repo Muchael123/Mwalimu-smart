@@ -3,6 +3,7 @@ const tintColorDark = '#fedc31';
 
 export default {
   yellow: '#FEDC31',
+  error: '#ff0033',
   white: '#fff',
   black: "#121416",
   btnText: '#0a0800',

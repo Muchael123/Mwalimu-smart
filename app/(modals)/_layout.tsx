@@ -20,10 +20,7 @@ export default function ModalLayout() {
         </TouchableOpacity>),
     }}>
       <Stack.Screen name="chat/[chat]" />
-      <Stack.Screen name='[id]' options={{
-         headerTitleAlign: 'center',
-        
-      }} />
+     
     </Stack>
   )
 }
