@@ -65,11 +65,11 @@ import { Ionicons } from "@expo/vector-icons";
           <FlashList
             data={subTopics}
             keyExtractor={(item) => item._id}
-            renderItem={({ item }) => <SubTopicCard {...item} />}
+            renderItem={({ item }) => <SubTopicCard item={item} />}
             estimatedItemSize={20}
             ListEmptyComponent={()=>{
                 return (
-                    <Text style={styles.text}>This Topic is currently empty</Text>
+                    <Text style={styles.text}>This Topic has no subtopics</Text>
                 )
             }}
           />
@@ -77,10 +77,13 @@ import { Ionicons } from "@expo/vector-icons";
           
           <View style={styles.noData}>
             <Text style={styles.text}>No subtopics found</Text>
+            <TouchableOpacity style={styles.retry} onPress={fetchSubTopics}>
+              <Text style={styles.retryText}>Try again</Text>
+            </TouchableOpacity>
           </View>
         )}
   
-        {/* Error Message */}
+        {/* Error */}
         {error && (
           <View style={styles.errorContainer}>
             <Text style={styles.errorText}>Error: {error}</Text>

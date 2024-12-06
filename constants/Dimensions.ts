@@ -12,5 +12,5 @@ export default {
   },
   gap: 20,
   screenWidth: window.width,
-  sceenHeight: window.height,
+  screenHeight: window.height,
 };

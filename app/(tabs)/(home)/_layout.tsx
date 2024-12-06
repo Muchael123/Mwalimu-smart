@@ -15,12 +15,7 @@ export default function _layout(props: Props) {
          animation: 'slide_from_right',
          
       }} />
-       <Stack.Screen name='[units]' options={{
-         headerTitleAlign: 'center',
-         presentation: 'modal',
-         animation: 'slide_from_right',
-         
-      }} />
+
        </Stack>
     )
     }

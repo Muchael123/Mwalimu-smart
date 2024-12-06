@@ -8,7 +8,7 @@ export default function ModalLayout() {
   const router = useRouter()
   const goBack = () => {
     console.log('going back')
-    router.back()
+    router.navigate('/(tabs)/(home)')
   }
   return (
     <Stack screenOptions={{
@@ -20,7 +20,12 @@ export default function ModalLayout() {
         </TouchableOpacity>),
     }}>
       <Stack.Screen name="chat/[chat]" />
-     
+      <Stack.Screen name='[learn]' options={{
+         headerTitleAlign: 'center',
+         presentation: 'modal',
+         animation: 'slide_from_right',
+         
+      }} />
     </Stack>
   )
 }

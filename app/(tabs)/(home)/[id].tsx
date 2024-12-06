@@ -1,6 +1,6 @@
 import {  ActivityIndicator, ScrollView, StyleSheet, Text,  TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { Stack, useLocalSearchParams } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import Colors from '@/constants/Colors'
 import { FlashList, MasonryFlashList } from "@shopify/flash-list";
 import { Topic, TopicResponse } from '@/constants/LessonTypes';
@@ -17,8 +17,13 @@ export default function Topics() {
   const ScrollRef = useRef<ScrollView>(null);
   const [title, setTitle] = useState<string>(`Topics in ${name}`)
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
+  const router = useRouter()
   useEffect(() => {
+   if(!name && !id){
+    router.back();
+   } else{
     fetchTopics();
+   }
   }, [id])
   const scrollTo = (index: number, id: string, t:string) => {
     ScrollRef.current?.scrollTo({x: index * Dimensions.screenWidth, y: 0, animated: true});

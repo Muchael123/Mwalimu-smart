@@ -37,7 +37,8 @@
     "react-native-screens": "~4.1.0",
     "react-native-web": "~0.19.13",
     "expo-dev-client": "~5.0.4",
-    "@shopify/flash-list": "1.7.1"
+    "@shopify/flash-list": "1.7.1",
+    "expo-linear-gradient": "~14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

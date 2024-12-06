@@ -4,14 +4,14 @@ import Colors from '@/constants/Colors'
 import { Lesson, LessonResponse } from '@/constants/LessonTypes'
 
 interface SubjectsProps {
-  subjects: Lesson[] | null // Corrected the type to match the data structure
+  subjects: Lesson[] | null 
   pressed: (val: Lesson) => void
   selected: Lesson | null
   getlevels: () => void
 }
 
 export default function Subjects({ subjects, pressed, selected, getlevels }: SubjectsProps) {
-  const Appear = useRef(new Animated.Value(0)).current; // Fixed animated value initialization
+  const Appear = useRef(new Animated.Value(0)).current; 
   const MyscrollViewRef = useRef<FlatList>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -94,7 +94,7 @@ export default function Subjects({ subjects, pressed, selected, getlevels }: Sub
             </Animated.View>
           </Pressable>
         )}
-        keyExtractor={(item) => item._id} // Use a unique identifier for keyExtractor
+        keyExtractor={(item) => item._id} 
         contentContainerStyle={{ padding: 4, gap: 20 }}
       />
     </View>

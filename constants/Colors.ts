@@ -14,6 +14,8 @@ export default {
   inputField: '#332B00',
   SubjectSelected: '#d3d3d3',
   SubjectTextSelected: '#11212d',
+  green: '#008000',
+  quizbg: "#242424",
   SubjectText: '#fedc31',
   'dark-gray': '#cc7722',
   'light': {
