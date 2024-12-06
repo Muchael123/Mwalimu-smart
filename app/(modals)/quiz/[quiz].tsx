@@ -6,7 +6,7 @@ import GenerateQuestions from "@/hooks/GenerateQuestions";
 import { useUser } from "@clerk/clerk-expo";
 import { Link, Redirect, Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import QuizView from "@/components/questions/QuizView";
@@ -83,6 +83,7 @@ export default function QuizScreen() {
        <View style={styles.quizView}>
         {loading ? (
           <View style={styles.quizView}>
+            <ActivityIndicator size="large" color={Colors.yellow} />
             <Text style={styles.text}>Loading...</Text>
             </View>
         ): 

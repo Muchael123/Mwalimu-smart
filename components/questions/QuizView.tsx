@@ -1,5 +1,5 @@
 import { View, StyleSheet, FlatList, Pressable, Text } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Question } from '@/constants/LearningTypes';
 import QuizCard from './QuizCard';
 import Dimensions from '@/constants/Dimensions';
@@ -18,11 +18,14 @@ const QuizView = ({ Quizes, setcurr }: QuizProps) => {
   const goToNext = (curIndex: number) => {
     if (curIndex < Quizes.length - 1) {
      setcurr(curIndex + 1)
-     setCurrentIndex(curIndex + 1);
+     setCurrentIndex(curIndex);
      flatRef.current?.scrollToIndex({ index: curIndex + 1 });
      setEnabled(true);
     }
   };
+  useEffect(() => {
+    flatRef.current?.scrollToIndex({ index: currentIndex,animated: true });
+  },[])
 
   return (
     <View style={styles.container}>
@@ -31,6 +34,7 @@ const QuizView = ({ Quizes, setcurr }: QuizProps) => {
         ref={flatRef}
         scrollEnabled={false}
         horizontal
+        style={{width: Dimensions.screenWidth}}
         contentContainerStyle={{padding: 20}}
         showsHorizontalScrollIndicator={false}
         renderItem={( {item, index} ) => (
@@ -54,7 +58,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: Colors.inputField,
-      padding: 20,
+    
       
     },
     text: {

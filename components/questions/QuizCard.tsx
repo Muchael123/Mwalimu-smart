@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { correctAnswerResponses, detailedAnswerIntroPhrases, wrongAnswerResponses } from '@/constants/Responses'
 import Colors from '@/constants/Colors'
@@ -30,7 +30,7 @@ export default function QuizCard({Quiz,enabled,setEnabled, index, goToNext}: Qui
     }
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       
      <View style={styles.quizcont}>
      {error === true ? (
@@ -69,6 +69,11 @@ export default function QuizCard({Quiz,enabled,setEnabled, index, goToNext}: Qui
 
             {!enabled && (
         <View style={styles.nextButtonContainer}>
+            {index > 0 && (
+                <Pressable onPress={()=>goToNext(index-1)} style={[styles.nextButton, {backgroundColor: Colors['dark-gray']}]}>
+                <Text style={styles.nextButtonText}>Previous Question</Text>
+                </Pressable>
+            )}
           <Pressable onPress={()=>goToNext(index+1)} style={styles.nextButton}>
             <Text style={styles.nextButtonText}>Next Question</Text>
           </Pressable>
@@ -76,7 +81,7 @@ export default function QuizCard({Quiz,enabled,setEnabled, index, goToNext}: Qui
       )}
             </View>
      }
-    </View>
+    </ScrollView>
   )
 }
 
@@ -86,7 +91,8 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 20
+      maxWidth: Dimensions.screenWidth*.9,
+     
     },
     quizcont: {
       width: '100%',
@@ -139,13 +145,14 @@ const styles = StyleSheet.create({
       marginTop: 20,
     },
     nextButtonContainer: {
-      position: 'absolute',
-      bottom: 20,
+        marginTop: 20,
       width: '100%',
       alignItems: 'center',
+      flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     nextButton: {
-      backgroundColor: '#4CAF50',
+      backgroundColor: Colors.yellow,
       paddingVertical: 12,
       paddingHorizontal: 25,
       borderRadius: 10,
