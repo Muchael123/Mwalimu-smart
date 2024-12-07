@@ -12,27 +12,41 @@ interface QuizCardProps {
     setEnabled: (enabled: boolean) => void
     index: number,
     goToNext: (index: number) => void
+    setScore?: (score: number) => void
+    score?: number
 }
 
-export default function QuizCard({Quiz,enabled,setEnabled, index, goToNext}: QuizCardProps) {
+export default function QuizCard({Quiz,enabled,setEnabled, index, goToNext, setScore, score}: QuizCardProps) {
     const [selectedOption, setSelectedOption] = useState<number | null>(null)
-    const [error, setError] = useState<boolean | null>(null)
+    const [error, setError] = useState<boolean | null>(null);
+  const [attempted, setAttempted] = useState<boolean>(false);
   
-
+const setAttemptedTrue = () => {
+    setAttempted(true)
+}
     const CheckError = (choice: string, i: number) => {
         setSelectedOption(i)
+        setAttemptedTrue()
         if(choice === Quiz.correctAnswer.basicAnswer) {
             setError(false)
             setEnabled(false)
+            if(setScore && attempted === false) {
+                setScore(score! + 1)
+            }
             return;
         }
         setError(true)
     }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView 
+    contentContainerStyle={styles.container}>
       
      <View style={styles.quizcont}>
+     <View style={styles.scoreCon}>
+        <Text style={styles.scoretxt}>Your Score</Text>
+        <Text style={[styles.scoretxt, {fontWeight: 'bold'}]}>{score} / 10</Text>
+        </View>
      {error === true ? (
         error &&  <View style={styles.errorView}>
         <MaterialIcons name="error-outline" size={24} color="white" />
@@ -61,17 +75,19 @@ export default function QuizCard({Quiz,enabled,setEnabled, index, goToNext}: Qui
      {
         error !== null && 
         <View>
-            <Text 
-            style={[styles.explanation, {fontWeight: 'semibold', fontSize: 20,color: Colors.yellow}]} >
+           <View style={styles.explancon}>
+           <Text 
+            style={[styles.explanation, {fontWeight: 'semibold', fontSize: 24,color: Colors.yellow}]} >
                 {detailedAnswerIntroPhrases[Math.floor(Math.random()* detailedAnswerIntroPhrases.length)]}
                 </Text>
             <Text style={styles.explanation}>{Quiz.correctAnswer.detailedAnswer}</Text>
+           </View>
 
             {!enabled && (
         <View style={styles.nextButtonContainer}>
             {index > 0 && (
-                <Pressable onPress={()=>goToNext(index-1)} style={[styles.nextButton, {backgroundColor: Colors['dark-gray']}]}>
-                <Text style={styles.nextButtonText}>Previous Question</Text>
+                <Pressable onPress={()=>goToNext(index-1)} style={[styles.nextButton, {  backgroundColor: '#303030', flex:1}]}>
+                <Text style={[styles.nextButtonText,{fontSize: 16}]}>Previous Question</Text>
                 </Pressable>
             )}
           <Pressable onPress={()=>goToNext(index+1)} style={styles.nextButton}>
@@ -91,21 +107,40 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      maxWidth: Dimensions.screenWidth*.9,
+      maxWidth: Dimensions.screenWidth,
+      paddingHorizontal: 20,
+      paddingTop: 40,
      
+    },
+    explancon: {
+      backgroundColor: '#303030',
+      marginTop: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding:10,
+      gap: 10,
+      borderRadius: 20,
+      borderBottomRightRadius: 0,
     },
     quizcont: {
       width: '100%',
       justifyContent: 'center',
       alignItems: 'center',
-      paddingHorizontal: 20,
+      padding: 20,
+      backgroundColor: '#303030',
+      borderRadius: 20,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: Colors.Subjectborder,
+      position: 'relative',
+      paddingTop: 30,
     },
     question: {
       fontSize: Dimensions.screenWidth > 360 ? 20 : 18,  
       color: 'white',
       textAlign: 'center',
-      marginVertical: 10,
+      marginBottom: 10,
       paddingHorizontal: 10, 
+      marginTop: 20,
     },
     choices: {
       width: '100%',
@@ -126,11 +161,10 @@ const styles = StyleSheet.create({
       backgroundColor: 'red',
       borderRadius: 10,
       padding: 8,
-      marginTop: 12,
+      marginTop: 4,
       flexDirection: 'row',
       gap: 10,
       alignItems: 'center',
-      marginBottom: 20,
     },
     errorText: {
       color: 'white',
@@ -140,25 +174,47 @@ const styles = StyleSheet.create({
     },
     explanation: {
       color: 'white',
-      fontSize: 18,
+      fontSize: 16,
       textAlign: 'center',
-      marginTop: 20,
+      letterSpacing: 1.2,
+      fontWeight: 200
+      
     },
     nextButtonContainer: {
         marginTop: 20,
       width: '100%',
-      alignItems: 'center',
       flexDirection: 'row',
         justifyContent: 'space-between',
+        gap:20
     },
     nextButton: {
       backgroundColor: Colors.yellow,
       paddingVertical: 12,
       paddingHorizontal: 25,
       borderRadius: 10,
+      flex: 2,
+      justifyContent: 'center',
     },
     nextButtonText: {
       color: 'white',
       fontSize: 18,
+      textAlign: 'center',
     },
+    scoreCon: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      paddingVertical: 8,
+      paddingHorizontal: 20,
+      borderTopRightRadius: 20,
+      borderBottomLeftRadius: 50,
+      backgroundColor: Colors.yellow,
+      gap: 5,
+    },
+    scoretxt: {
+      fontSize: 12,
+      color: Colors.black,
+      fontWeight: 'semibold',
+      textAlign: 'center',
+    }
   });

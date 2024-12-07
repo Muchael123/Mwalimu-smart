@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.white,
     textAlign: 'center',
-    
   },
   unit: {
     padding: 24,
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
   }
  
   

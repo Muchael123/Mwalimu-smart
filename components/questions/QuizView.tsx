@@ -13,13 +13,15 @@ interface QuizProps {
 const QuizView = ({ Quizes, setcurr }: QuizProps) => {
   const [enabled, setEnabled] = useState<boolean>(true);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [score, setScore] = useState<number>(0);
   const flatRef = useRef<FlatList>(null);
 
   const goToNext = (curIndex: number) => {
-    if (curIndex < Quizes.length - 1) {
-     setcurr(curIndex + 1)
+    console.log('scrolling to index ', curIndex, Quizes.length,'\n', Quizes[Quizes.length-1] );
+    if (curIndex <= Quizes.length -1 && curIndex >= 0) {
+     setcurr(curIndex)
      setCurrentIndex(curIndex);
-     flatRef.current?.scrollToIndex({ index: curIndex + 1 });
+     flatRef.current?.scrollToIndex({ index: curIndex, animated: true });
      setEnabled(true);
     }
   };
@@ -35,14 +37,16 @@ const QuizView = ({ Quizes, setcurr }: QuizProps) => {
         scrollEnabled={false}
         horizontal
         style={{width: Dimensions.screenWidth}}
-        contentContainerStyle={{padding: 20}}
-        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{paddingRight: 10}}
+        showsHorizontalScrollIndicator
         renderItem={( {item, index} ) => (
           <QuizCard Quiz={item}
            enabled={enabled} 
            index={index}
            goToNext={goToNext}
            setEnabled={setEnabled} 
+            setScore={(score: number) => setScore(score)}
+            score={score}
            />
         )}
         keyExtractor={(item) => item._id}
