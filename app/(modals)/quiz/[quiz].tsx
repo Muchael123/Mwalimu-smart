@@ -18,6 +18,7 @@ export default function QuizScreen() {
     const [questions, setQuestions] = useState<Question[] | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [quizId, setQuizId] = useState<string | null>(null);
     
     
     if(!quiz) {
@@ -42,6 +43,7 @@ export default function QuizScreen() {
         const data = await GenerateQuestions(quiz.toString(), user?.id);
         if(data) {
           setQuestions(data.questions);
+          setQuizId(data._id);
           return;
         }
         setError("Failed to fetch questions");
@@ -88,7 +90,7 @@ export default function QuizScreen() {
             </View>
         ): 
         questions ? (
-          <QuizView Quizes={questions} setcurr={setCurrentpage} />
+          <QuizView QuizId={quizId} Quizes={questions} setcurr={setCurrentpage} />
         ): (
           <View style={styles.quizView}>
             <Text style={styles.text}>{error}</Text>

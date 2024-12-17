@@ -13,7 +13,7 @@ export default function Fields() {
   const [empty, setEmpty] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
 
-  const handleSelected = (lesson: Lesson) => {
+  const   handleSelected = (lesson: Lesson) => {
     setSelected(lesson)
   }
 

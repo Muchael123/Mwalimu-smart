@@ -14,6 +14,7 @@ export default function ModalLayout() {
     <Stack screenOptions={{
        presentation: 'modal',
        animation: 'flip',
+       headerTitleAlign: 'center',
       headerLeft: () => (
         <TouchableOpacity hitSlop={50} onPress={goBack}>
          <Ionicons name="arrow-back-circle-outline" size={28} color={Colors.yellow} />
@@ -21,11 +22,9 @@ export default function ModalLayout() {
     }}>
       <Stack.Screen name="chat/[chat]" />
       <Stack.Screen name='[learn]' options={{
-         headerTitleAlign: 'center',
-         presentation: 'modal',
          animation: 'slide_from_right',
-         
       }} />
+      <Stack.Screen name='final/[final]' /> 
     </Stack>
   )
 }

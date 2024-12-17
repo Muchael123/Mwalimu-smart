@@ -8,9 +8,10 @@ import Colors from '@/constants/Colors';
 interface QuizProps {
   Quizes: Question[];
   setcurr: (index: number) => void;
+  QuizId: string | null;
 }
 
-const QuizView = ({ Quizes, setcurr }: QuizProps) => {
+const QuizView = ({ Quizes, setcurr, QuizId }: QuizProps) => {
   const [enabled, setEnabled] = useState<boolean>(true);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
@@ -23,6 +24,9 @@ const QuizView = ({ Quizes, setcurr }: QuizProps) => {
      setCurrentIndex(curIndex);
      flatRef.current?.scrollToIndex({ index: curIndex, animated: true });
      setEnabled(true);
+    }
+    else if(curIndex === Quizes.length) {
+      console.log("Quizes completed...")
     }
   };
   useEffect(() => {
@@ -44,6 +48,7 @@ const QuizView = ({ Quizes, setcurr }: QuizProps) => {
            enabled={enabled} 
            index={index}
            goToNext={goToNext}
+           QuizId={QuizId}
            setEnabled={setEnabled} 
             setScore={(score: number) => setScore(score)}
             score={score}

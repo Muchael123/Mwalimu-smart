@@ -16,7 +16,7 @@ export default function Index() {
     const gap = 15;
     scrollRef.current?.scrollTo({
       x: index * Dimensions.scroll.width + (index > 0 ? gap : 0),
-      animated: true,
+      animated: true,     
     });
   };
 

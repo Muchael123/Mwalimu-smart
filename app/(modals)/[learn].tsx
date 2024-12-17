@@ -9,6 +9,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 export default function Learn() {
   const {subtopicid, learn, description} = useLocalSearchParams()
   const router = useRouter()
+  console.log(subtopicid,'Subtopic id')
   
   return (
     <View style={styles.container}>

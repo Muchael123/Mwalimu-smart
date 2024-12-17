@@ -65,7 +65,7 @@ import { Ionicons } from "@expo/vector-icons";
           <FlashList
             data={subTopics}
             keyExtractor={(item) => item._id}
-            renderItem={({ item }) => <SubTopicCard item={item} />}
+            renderItem={({ item,index }) => <SubTopicCard index={index} item={item} />}
             estimatedItemSize={20}
             ListEmptyComponent={()=>{
                 return (

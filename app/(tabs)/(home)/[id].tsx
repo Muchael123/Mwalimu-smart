@@ -68,8 +68,8 @@ export default function Topics() {
       data={data}
       estimatedItemSize={12}
        keyExtractor={(item) => item._id}
-       renderItem={({ item }) => (
-         <TopicCard selected={selectedTopicId} item={item} onPress={scrollTo} />
+       renderItem={({ item, index }) => (
+         <TopicCard selected={selectedTopicId} index={index} item={item} onPress={scrollTo} />
        )}
        ListEmptyComponent={()=> (
          <View>
@@ -82,7 +82,9 @@ export default function Topics() {
                 />
        </View>
         <View style={styles.View}>
-          { selectedTopicId && <SubTopics  goback={()=> {
+          { selectedTopicId && <SubTopics
+          
+            goback={()=> {
             ScrollRef.current?.scrollTo({x:0,y:0})
             setTitle(`Topics in ${name}`)
           }} topicId={selectedTopicId} />}

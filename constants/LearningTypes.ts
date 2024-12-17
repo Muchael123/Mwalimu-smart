@@ -26,5 +26,10 @@ type MyLearningResponse = {
     basicAnswer: string;
     detailedAnswer: string; 
   };
-  export type { MyLearningResponse, MyLearning, Question, CorrectAnswer };
+
+  type QuizArray ={
+    passedQuestions: number[] | undefined; 
+    failedQuestions: number[] | undefined; 
+  }
+  export type { MyLearningResponse, MyLearning, Question, CorrectAnswer, QuizArray };
   

@@ -2,17 +2,24 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Colors from '@/constants/Colors'
 import { Topic } from '@/constants/LessonTypes'
+import Animated, { Easing, LightSpeedInLeft, LightSpeedInRight, LightSpeedOutLeft } from 'react-native-reanimated';
+
 
 interface Props  {
 item: Topic
 onPress: (index: number, id: string, t:string) => void;
-selected: string | null
+selected: string | null;
+index: number;
 }
 
-const TopicCard = ({item, onPress, selected}: Props) => {
- 
+
+const TopicCard = ({item, onPress, selected, index}: Props) => {
+ const Animatedtouchable = Animated.createAnimatedComponent(TouchableOpacity)
   return (
-    <TouchableOpacity
+    <Animatedtouchable
+    
+    entering={index % 2 === 0 ? LightSpeedInRight.duration(1000).easing(Easing.ease).delay(index * 150) : LightSpeedInLeft.duration(1000).easing(Easing.ease).delay(index * 150)} 
+    exiting={LightSpeedOutLeft}
            onPress={() => {
             onPress(1, item._id, item.name)
            }
@@ -20,8 +27,10 @@ const TopicCard = ({item, onPress, selected}: Props) => {
           style={
             selected === item._id ? styles.topicselect : styles.topic
           }>
-           <Text style={ selected === item._id? styles.textselect : styles.text}>{item.name}</Text>
-         </TouchableOpacity>
+           <Text
+           
+            style={ selected === item._id? styles.textselect : styles.text}>{item.name}</Text>
+         </Animatedtouchable>
   )
 }
 
